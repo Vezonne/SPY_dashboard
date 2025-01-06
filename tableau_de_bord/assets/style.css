@@ -1,0 +1,72 @@
+/* Style pour le conteneur principal */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+html.Div {
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 20px;
+    transition: transform 0.2s;
+}
+
+html.Div:hover {
+    transform: scale(1.02);
+}
+
+/* Style pour le titre */
+h1 {
+    color: #333333;
+    text-align: center;
+    margin-bottom: 20px;
+    animation: fadeIn 2s;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* Style pour le conteneur du dropdown */
+.dropdown-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+/* Style pour le dropdown */
+#menu-deroulant-metrics {
+    width: 300px;
+    transition: background-color 0.3s;
+}
+
+#menu-deroulant-metrics:hover {
+    background-color: #e0e0e0;
+}
+
+/* Style pour le conteneur du graphique */
+.graph-container {
+    display: flex;
+    justify-content: center;
+}
+
+/* Style pour le graphique */
+#graph-metrics {
+    width: 80%;
+    height: 500px;
+    transition: opacity 0.5s;
+}
+
+#graph-metrics:hover {
+    opacity: 0.8;
+}
