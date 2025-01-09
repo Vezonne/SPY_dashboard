@@ -10,8 +10,8 @@ app = dash.Dash(__name__, external_stylesheets=['/assets/style.css'])
 app.layout = html.Div(children=[
     html.H1(children='Tableau de Bord des métriques essentielles du joueur par niveau'),
     html.Div(children=[
-        dcc.Input(id='username-input', type='text', placeholder='Enter username', style={'margin-right': '10px'}),
-        html.Button('Submit', id='submit-button', n_clicks=0)
+        dcc.Input(id='username-input', type='text', placeholder='Entrer un nom d\'utilisateur', style={'margin-right': '10px'}),
+        html.Button('Entrer', id='submit-button', n_clicks=0)
     ], style={'text-align': 'center', 'margin-bottom': '20px'}),
     html.Div(id='output-container', children=[
         html.Div(className='graph-container', children=[
@@ -31,7 +31,8 @@ app.layout = html.Div(children=[
             ]),
             dcc.Graph(id='graph-time-spent')
         ], style={'display': 'flex', 'flex-direction': 'column'})
-    ])
+    ]),
+    html.Script(src='/assets/script.js')  # Inclure le fichier JavaScript
 ])
 
 @app.callback(

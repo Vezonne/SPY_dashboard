@@ -4,6 +4,7 @@ body {
     background-color: #f4f4f4;
     margin: 0;
     padding: 0;
+    transition: background-color 0.3s;
 }
 
 html.Div {
@@ -12,11 +13,12 @@ html.Div {
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin: 20px;
-    transition: transform 0.2s;
+    transition: transform 0.2s, box-shadow 0.2s;
 }
 
 html.Div:hover {
     transform: scale(1.02);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 /* Style pour le titre */
@@ -31,7 +33,6 @@ h1 {
     from {
         opacity: 0;
     }
-
     to {
         opacity: 1;
     }
@@ -45,28 +46,87 @@ h1 {
 }
 
 /* Style pour le dropdown */
-#menu-deroulant-metrics {
+#menu-deroulant-metrics, #menu-deroulant-time-spent {
     width: 300px;
-    transition: background-color 0.3s;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    transition: background-color 0.3s, border-color 0.3s;
 }
 
-#menu-deroulant-metrics:hover {
+#menu-deroulant-metrics:hover, #menu-deroulant-time-spent:hover {
     background-color: #e0e0e0;
+    border-color: #888;
 }
 
 /* Style pour le conteneur du graphique */
 .graph-container {
     display: flex;
     justify-content: center;
+    flex-direction: column;
+    /*align-items: center;*/
 }
 
 /* Style pour le graphique */
-#graph-metrics {
+#graph-metrics, #graph-avg-score, #graph-completed-counts, #graph-time-spent {
     width: 80%;
     height: 500px;
-    transition: opacity 0.5s;
+    transition: opacity 0.5s, transform 0.5s;
 }
 
-#graph-metrics:hover {
+#graph-metrics:hover, #graph-avg-score:hover, #graph-completed-counts:hover, #graph-time-spent:hover {
     opacity: 0.8;
+    transform: scale(1.01);
+}
+
+/* Style pour les boutons */
+button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+button:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+/* Style pour les entrées de texte */
+input[type="text"] {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: border-color 0.3s;
+}
+
+input[type="text"]:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+/* Classes pour les animations */
+.fade-in {
+    opacity: 0;
+    transition: opacity 1s ease-in;
+}
+
+.fade-in.visible {
+    opacity: 1;
+}
+
+.scroll-fade {
+    opacity: 0;
+    transition: opacity 1s ease-in;
+}
+
+.scroll-fade.visible {
+    opacity: 1;
+}
+
+button.hovered {
+    transform: scale(1.1);
 }
