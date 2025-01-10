@@ -37,7 +37,8 @@ app.layout = html.Div(children=[
             ]),
             dcc.Graph(id='graph-time-spent')
         ], style={'display': 'flex', 'flex-direction': 'column'})
-    ])
+    ]),
+    html.Script(src='/assets/script.js')
 ])
 
 @app.callback(
