@@ -6,8 +6,9 @@ def extract_scores(base_dir):
 
     # Parcourir tous les dossiers dans le répertoire principal
     for folder in os.listdir(base_dir):
+        #print("blabla",os.listdir(base_dir))
         folder_path = os.path.join(base_dir, folder)
-        #print(f"Dossier : {folder_path}")
+        #print("blabla",os.listdir(folder_path))
 
         # Vérifier si c'est un dossier et ignorer les dossiers spécifiques
         if os.path.isdir(folder_path) and folder not in ["RonDoor_Scenario", "Selectionneur", "Tutoriel", "ELS"]:
@@ -15,9 +16,10 @@ def extract_scores(base_dir):
 
             # Parcourir les fichiers dans le dossier
             for file in os.listdir(folder_path):
+                #print(file)
                 if file.endswith(".xml"):
                     file_path = os.path.join(folder_path, file)
-                    print(f"Fichier : {file_path}")
+                    
 
                     # Extraire le score max du fichier XML
                     try:
@@ -27,11 +29,12 @@ def extract_scores(base_dir):
                         # Rechercher l'élément <score>
                         score_element = root.find(".//score")
                         if score_element is not None:
+                            two_stars = score_element.get("twoStars")
                             three_stars = score_element.get("threeStars")
-                            if three_stars is not None:
+                            if two_stars and three_stars is not None:
                                 # Enregistrer le score max dans le dictionnaire
                                 level_name = os.path.splitext(file)[0]
-                                folder_scores[level_name] = int(three_stars)
+                                folder_scores[level_name] = int(two_stars),int(three_stars)
                     except ET.ParseError:
                         print(f"Erreur de parsing dans le fichier : {file_path}")
 

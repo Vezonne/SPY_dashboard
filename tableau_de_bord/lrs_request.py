@@ -15,7 +15,7 @@ AUTH = (
     "9fe9fa9a494f2b34b3cf355dcf20219d7be35b14",
     "b547a66817be9c2dbad2a5f583e704397c9db809",
 )
-NAME = "BA47A4CF"
+NAME = "59F2BF0"
 
 
 def fetch_lrs_data(agent_name):
@@ -120,10 +120,15 @@ def process_data(data):
             level: round(sum(scores) / len(scores)) if len(scores) > 0 else None
             for level, scores in score_by_level.items()
         }
+        max_score_by_level = {
+            level: max(scores) if len(scores) > 0 else None
+            for level, scores in score_by_level.items()
+        }
 
     df = pd.DataFrame(records)
     df["Timestamp"] = pd.to_datetime(df["Timestamp"])
-    return df, list(all_mission_levels), completed_counts, avg_score_by_level
+    print(df)
+    return df, list(all_mission_levels), completed_counts, avg_score_by_level, max_score_by_level
 
 
 def calculate_time_per_level(df):
