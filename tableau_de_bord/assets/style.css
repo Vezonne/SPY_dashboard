@@ -1,6 +1,6 @@
 /* Style pour le conteneur principal */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Roboto', sans-serif;
     background-color: #f4f4f4;
     margin: 0;
     padding: 0;
@@ -10,15 +10,15 @@ body {
 html.Div {
     padding: 20px;
     background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
     margin: 20px;
-    transition: transform 0.2s, box-shadow 0.2s;
+    transition: transform 0.3s, box-shadow 0.3s;
 }
 
 html.Div:hover {
     transform: scale(1.02);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
 }
 
 /* Style pour le titre */
@@ -27,6 +27,8 @@ h1 {
     text-align: center;
     margin-bottom: 20px;
     animation: fadeIn 2s;
+    font-size: 2.5em;
+    font-weight: bold;
 }
 
 @keyframes fadeIn {
@@ -46,15 +48,16 @@ h1 {
 }
 
 /* Style pour le dropdown */
-#menu-deroulant-metrics, #menu-deroulant-time-spent {
+#menu-deroulant-metrics, #menu-deroulant-time-spent, #menu-deroulant-scenario {
     width: 300px;
-    padding: 10px;
-    border-radius: 4px;
+    padding: 12px;
+    border-radius: 8px;
     border: 1px solid #ccc;
     transition: background-color 0.3s, border-color 0.3s;
+    font-size: 1em;
 }
 
-#menu-deroulant-metrics:hover, #menu-deroulant-time-spent:hover {
+#menu-deroulant-metrics:hover, #menu-deroulant-time-spent:hover, #menu-deroulant-scenario:hover {
     background-color: #e0e0e0;
     border-color: #888;
 }
@@ -72,22 +75,26 @@ h1 {
     width: 80%;
     height: 500px;
     transition: opacity 0.5s, transform 0.5s;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 #graph-metrics:hover, #graph-avg-score:hover, #graph-completed-counts:hover, #graph-time-spent:hover {
-    opacity: 0.8;
+    opacity: 0.9;
     transform: scale(1.01);
 }
 
 /* Style pour les boutons */
 button {
-    padding: 10px 20px;
+    padding: 12px 24px;
     border: none;
-    border-radius: 4px;
+    border-radius: 8px;
     background-color: #007bff;
     color: white;
     cursor: pointer;
     transition: background-color 0.3s, transform 0.3s;
+    font-size: 1em;
+    font-weight: bold;
 }
 
 button:hover {
@@ -97,10 +104,11 @@ button:hover {
 
 /* Style pour les entrées de texte */
 input[type="text"] {
-    padding: 10px;
+    padding: 12px;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: 8px;
     transition: border-color 0.3s;
+    font-size: 1em;
 }
 
 input[type="text"]:focus {

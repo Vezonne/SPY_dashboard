@@ -53,4 +53,24 @@ document.addEventListener('DOMContentLoaded', function() {
             input.style.transition = 'border-color 0.3s ease-in-out';
         });
     });
+
+    // Ajoute des animations de clic pour les boutons
+    buttons.forEach(button => {
+        button.addEventListener('mousedown', () => {
+            button.style.transform = 'scale(0.95)';
+        });
+        button.addEventListener('mouseup', () => {
+            button.style.transform = 'scale(1)';
+        });
+    });
+
+    // Ajoute des animations de focus pour les entrées de texte
+    textInputs.forEach(input => {
+        input.addEventListener('focus', () => {
+            input.style.boxShadow = '0 0 5px rgba(0, 123, 255, 0.5)';
+        });
+        input.addEventListener('blur', () => {
+            input.style.boxShadow = 'none';
+        });
+    });
 });
