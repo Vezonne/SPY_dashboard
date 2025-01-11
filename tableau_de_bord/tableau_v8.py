@@ -27,7 +27,8 @@ app.layout = html.Div(children=[
             dcc.Graph(id='graph-completed-counts'),
             #dcc.Graph(id='graph-2stars'),
             #dcc.Graph(id='graph-3stars'),
-            dcc.Graph(id='graph-player-stars'),  # New graph for player stars
+            dcc.Graph(id='graph-player-stars'), 
+            dcc.Graph(id='graph-total-stars'), # New graph for Nombre d\'étoiles du joueur par scénario
             html.Div(className='dropdown-container', children=[
                 dcc.Dropdown(
                     id='menu-deroulant-time-spent',
@@ -75,14 +76,15 @@ def update_scenario_options(n_clicks, username):
      #Output('graph-3stars', 'figure'),
      #Output('graph-combined1', 'figure'),
      #Output('graph-combined2', 'figure'),
-     Output('graph-player-stars', 'figure'),  # New output for player stars graph
+     Output('graph-total-stars', 'figure'),  # New output for Nombre d\'étoiles total par scénario graph     
+     Output('graph-player-stars', 'figure'),  # New output for Nombre d\'étoiles du joueur par scénario graph
     [Input('menu-deroulant-scenario', 'value'),
      Input('menu-deroulant-time-spent', 'value')],
     [State('username-input', 'value')]
 )
 def update_graphs(selected_scenario, selected_time_spent, username):
     if not username or not selected_scenario:
-        return {}, {}, {}, {}, {}
+        return {}, {}, {}, {}, {}, {}
 
     data = fetch_lrs_data(username)
     df, all_mission_levels, completed_counts, avg_score_by_level, max_score_by_level = process_data(data)
@@ -160,18 +162,18 @@ def update_graphs(selected_scenario, selected_time_spent, username):
                 player_stars = 3
             if max_score >= stars[0] and max_score < stars[1]:
                 player_stars = 2
-            player_star_data.append({'Scénario':Scénario, 'Level': level, 'Player Stars': player_stars})
+            player_star_data.append({'Scénario':Scénario, 'Level': level, 'Nombre d\'étoiles du joueur par scénario': player_stars})
 
     df_stars = pd.DataFrame(star_data)
     print("bbbbbbb",player_star_data)
-    df_player_stars = pd.DataFrame(player_star_data)  # New DataFrame for player stars
+    df_player_stars = pd.DataFrame(player_star_data)  # New DataFrame for Nombre d\'étoiles du joueur par scénario
     #print("blueblue",star_data)
     df_stars = pd.DataFrame(star_data)
     
     
     #print("greengreen", df_stars)
 
-    fig_player_stars = px.bar(df_player_stars, x='Level', y='Player Stars', color='Scénario', title='Nombre d\'étoiles obtenues par niveau', text='Player Stars')
+    fig_player_stars = px.bar(df_player_stars, x='Level', y='Nombre d\'étoiles du joueur par scénario', color='Scénario', title='Nombre d\'étoiles obtenues par niveau', text='Nombre d\'étoiles du joueur par scénario')
     fig_player_stars.update_traces(texttemplate='%{text}', textposition='outside')
     fig_player_stars.update_layout(
         xaxis_title='Niveaux',
@@ -179,7 +181,28 @@ def update_graphs(selected_scenario, selected_time_spent, username):
         margin=dict(l=40, r=40, t=40, b=40),
         yaxis=dict(tickmode='linear', dtick=1)
     )
+    
+    total_stars_data = []
+    for scenario, levels in star_scores.items():
+        total_stars = len(levels) * 3  # 3 stars per level
+        player_stars = sum([player_star_data[i]['Nombre d\'étoiles du joueur par scénario'] for i in range(len(player_star_data)) if player_star_data[i]['Scénario'] == scenario])
+        total_stars_data.append({'Scénario': scenario, 'Nombre d\'étoiles total par scénario': total_stars, 'Nombre d\'étoiles du joueur par scénario': player_stars})
 
+    df_total_stars = pd.DataFrame(total_stars_data)
+
+    # Create a graph comparing Nombre d\'étoiles du joueur par scénario to Nombre d\'étoiles total par scénario required
+    fig_total_stars = px.bar(df_total_stars, x='Scénario', y=['Nombre d\'étoiles du joueur par scénario', 'Nombre d\'étoiles total par scénario'], barmode='group', title='Progression du joueur en termes d\'étoiles', text_auto=True)
+
+# Update the layout to differentiate the bars
+    fig_total_stars.update_traces(marker=dict(line=dict(width=1.5, color='DarkSlateGrey')))
+    fig_total_stars.update_layout(
+    xaxis_title='Scénarios',
+    yaxis_title='Nombre d\'étoiles',
+    margin=dict(l=40, r=40, t=40, b=40),
+    yaxis=dict(tickmode='linear', dtick=1),
+    legend_title_text='Type d\'étoiles',
+    legend=dict(x=0.5, y=1.1, orientation='h', xanchor='center')
+)
     #fig_combined1 = px.bar(df_stars, x='Level', y=['Max Score', 'Score to get 2 Stars'], barmode='group', color='Scénario', title='Comparaison du score maximum et du score nécessaire pour obtenir 2 étoiles')
     #fig_combined1.update_traces(texttemplate='%{text}', textposition='outside')
     #fig_combined1.update_layout(
@@ -189,7 +212,7 @@ def update_graphs(selected_scenario, selected_time_spent, username):
     #yaxis=dict(tickmode='linear', dtick=1)
     #)
 
-    return fig_avg_score, fig_max_score, fig_completed_counts, fig_time_spent, fig_player_stars
+    return fig_avg_score, fig_max_score, fig_completed_counts, fig_time_spent, fig_player_stars, fig_total_stars
 
 if __name__ == '__main__':
     app.run_server(debug=True)
