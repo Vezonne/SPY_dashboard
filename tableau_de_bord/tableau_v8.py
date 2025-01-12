@@ -163,6 +163,7 @@ def update_graphs(selected_scenario, selected_time_spent, username):
             max_score = max_score_by_level.get(transformed_level, 0)
             #print("level", transformed_level)
             #print("max_score", max_score_by_level)
+            #print("max_score_by_level", max_score)
             player_stars = 0
             if max_score >= stars[1]:
                 player_stars = 3
@@ -171,7 +172,12 @@ def update_graphs(selected_scenario, selected_time_spent, username):
             player_star_data.append({'Scénario':Scénario, 'Level': transformed_level, 'Nombre d\'étoiles du joueur par scénario': player_stars})
 
     df_stars = pd.DataFrame(star_data)
-    print("bbbbbbb",player_star_data)
+    #print("bbbbbbb",player_star_data)
+    player_star_data = [
+        entry for entry in player_star_data
+        if not (entry['Scénario'] == 'Infiltration' and entry['Level'] in [f'mission0{i}' for i in range(1, 9)])
+    ]
+    print("player_star_data", player_star_data)
     df_player_stars = pd.DataFrame(player_star_data)  # New DataFrame for Nombre d\'étoiles du joueur par scénario
     #print("blueblue",star_data)
     df_stars = pd.DataFrame(star_data)
