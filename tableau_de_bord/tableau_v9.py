@@ -24,11 +24,17 @@ app.layout = html.Div(
                     style={"margin-right": "10px"},
                 ),
                 html.Button("Entrer", id="submit-button", n_clicks=0),
-                dcc.Dropdown(
-                    id="menu-deroulant-scenario",
-                    options=[],  # Les options seront mises à jour dynamiquement
-                    placeholder="Sélectionner un scénario",
-                    style={"width": "50%", "margin-top": "20px"},
+                dcc.Loading(
+                    id="loading-scenario-dropdown",
+                    type="circle",  # Vous pouvez utiliser "default", "circle", ou "dot"
+                    children=[
+                        dcc.Dropdown(
+                            id="menu-deroulant-scenario",
+                            options=[],  # Les options seront mises à jour dynamiquement
+                            placeholder="Sélectionner un scénario",
+                            style={"width": "50%", "margin-top": "20px"},
+                        )
+                    ],
                 ),
             ],
             style={"text-align": "center", "margin-bottom": "20px"},
@@ -39,40 +45,42 @@ app.layout = html.Div(
                 html.Div(
                     className="graph-container",
                     children=[
-                        dcc.Graph(id="graph-avg-score"),
-                        dcc.Graph(id="graph-max-score"),
-                        dcc.Graph(id="graph-completed-counts"),
-                        # dcc.Graph(id='graph-2stars'),
-                        # dcc.Graph(id='graph-3stars'),
-                        dcc.Graph(id="graph-player-stars"),
-                        dcc.Graph(
-                            id="graph-total-stars"
-                        ),  # New graph for Nombre d\'étoiles du joueur par scénario
-                        html.Div(
-                            className="dropdown-container",
+                        dcc.Loading(
+                            id="loading-graphs",
+                            type="circle",
                             children=[
-                                dcc.Dropdown(
-                                    id="menu-deroulant-time-spent",
-                                    options=[
-                                        {
-                                            "label": "Temps passé maximum par niveau",
-                                            "value": "Max Time Spent",
-                                        },
-                                        {
-                                            "label": "Temps passé minimum par niveau",
-                                            "value": "Min Time Spent",
-                                        },
-                                        {
-                                            "label": "Temps moyen passé par niveau",
-                                            "value": "Average Duration",
-                                        },
+                                dcc.Graph(id="graph-avg-score"),
+                                dcc.Graph(id="graph-max-score"),
+                                dcc.Graph(id="graph-completed-counts"),
+                                dcc.Graph(id="graph-player-stars"),
+                                dcc.Graph(id="graph-total-stars"),
+                                html.Div(
+                                    className="dropdown-container",
+                                    children=[
+                                        dcc.Dropdown(
+                                            id="menu-deroulant-time-spent",
+                                            options=[
+                                                {
+                                                    "label": "Temps passé maximum par niveau",
+                                                    "value": "Max Time Spent",
+                                                },
+                                                {
+                                                    "label": "Temps passé minimum par niveau",
+                                                    "value": "Min Time Spent",
+                                                },
+                                                {
+                                                    "label": "Temps moyen passé par niveau",
+                                                    "value": "Average Duration",
+                                                },
+                                            ],
+                                            value="Max Time Spent",  # Par défaut
+                                            style={"width": "50%"},
+                                        )
                                     ],
-                                    value="Max Time Spent",  # Par défaut, afficher le temps passé maximum par niveau
-                                    style={"width": "50%"},
-                                )
+                                ),
+                                dcc.Graph(id="graph-time-spent"),
                             ],
-                        ),
-                        dcc.Graph(id="graph-time-spent"),
+                        )
                     ],
                     style={"display": "flex", "flex-direction": "column"},
                 )
@@ -89,13 +97,10 @@ app.layout = html.Div(
     [State("username-input", "value")],
 )
 def update_scenario_options(n_clicks, username):
-    # Si le champ utilisateur est vide
     if not username:
-        return [], None  # Deux valeurs : une liste vide et None pour le stockage
-
-    # Si le bouton est cliqué et qu'un nom d'utilisateur est fourni
+        return [], None
     if n_clicks > 0:
-        data = fetch_lrs_data(username)  # Récupération des données LRS
+        data = fetch_lrs_data(username)
         (
             df,
             all_mission_levels,
@@ -103,8 +108,6 @@ def update_scenario_options(n_clicks, username):
             avg_score_by_level,
             max_score_by_level,
         ) = process_data(data)
-
-        # Stockage des données dans le data-store
         store_data = {
             "df": df.to_dict("records"),
             "all_mission_levels": all_mission_levels,
@@ -112,8 +115,6 @@ def update_scenario_options(n_clicks, username):
             "avg_score_by_level": avg_score_by_level,
             "max_score_by_level": max_score_by_level,
         }
-
-        # Générer les options pour le menu déroulant des scénarios
         scenarios = df["Scenario"].dropna().unique()
         scenarios = [
             scenario
@@ -123,11 +124,8 @@ def update_scenario_options(n_clicks, username):
         scenario_options = [
             {"label": scenario, "value": scenario} for scenario in scenarios
         ]
-
-        return scenario_options, store_data  # Deux valeurs retournées
-
-    # Si aucune action n'est effectuée
-    return [], None  # Deux valeurs par défaut
+        return scenario_options, store_data
+    return [], None
 
 
 @app.callback(
@@ -162,9 +160,6 @@ def update_graphs(selected_scenario, selected_time_spent, data, username):
     # df, all_mission_levels, completed_counts, avg_score_by_level, max_score_by_level = (
     #     process_data(data)
     # )
-
-    print(f"Type de data : {type(data)}")
-    print(f"Valeur de data : {data}")
 
     df = pd.DataFrame(data["df"])
     all_mission_levels = data["all_mission_levels"]
@@ -299,17 +294,20 @@ def update_graphs(selected_scenario, selected_time_spent, data, username):
                     "Score to get 3 Stars": stars[1],
                 }
             )
-            # Determine the number of stars the player has achieved using max_score_by_level
-            # transformed_level = level.replace("Niveau", "mission")
-            max_score = max_score_by_level.get(transformed_level, 0)
-            # print("level", transformed_level)
-            # print("max_score", max_score_by_level)
-            # print("max_score_by_level", max_score)
-            player_stars = 0
-            if max_score >= stars[1]:
-                player_stars = 3
-            if max_score >= stars[0] and max_score < stars[1]:
-                player_stars = 2
+            # Déterminer le nombre d'étoiles que le joueur a obtenues
+            max_score = max_score_by_level.get(transformed_level, None)
+
+            # Ajouter une vérification pour max_score
+            if max_score is not None:
+                player_stars = 0
+                if max_score >= stars[1]:
+                    player_stars = 3
+                elif max_score >= stars[0]:
+                    player_stars = 2
+            else:
+                # Si le score maximum est introuvable, attribuer 0 étoile
+                player_stars = 0
+
             player_star_data.append(
                 {
                     "Scénario": Scénario,
