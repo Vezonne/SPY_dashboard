@@ -33,11 +33,11 @@ app.layout = html.Div(children=[
                 dcc.Dropdown(
                     id='menu-deroulant-time-spent',
                     options=[
-                        {'label': 'Temps passé maximum par niveau', 'value': 'Max Time Spent'},
-                        {'label': 'Temps passé minimum par niveau', 'value': 'Min Time Spent'},
-                        {'label': 'Temps moyen passé par niveau', 'value': 'Average Duration'}
+                        {'label': 'Temps passé maximum par niveau', 'value': 'Temps passé maximum par niveau'},
+                        {'label': 'Temps passé minimum par niveau', 'value': 'Temps passé minimum par niveau'},
+                        {'label': 'Temps moyen passé par niveau', 'value': 'Temps moyen passé par niveau'}
                     ],
-                    value='Max Time Spent',  # Par défaut, afficher le temps passé maximum par niveau
+                    value='Temps passé maximum par niveau',  # Par défaut, afficher le temps passé maximum par niveau
                     style={'width': '50%'}
                 )
             ]),
@@ -98,46 +98,46 @@ def update_graphs(selected_scenario, selected_time_spent, username):
     time_spent_min = {k: round(v, 3) for k, v in time_spent_min.items()}
     time_spent_avg = {k: round(v, 3) for k, v in time_spent_avg.items()}
 
-    df_time_spent_max = pd.DataFrame(list(time_spent_max.items()), columns=['Mission Level', 'Max Time Spent'])
-    df_time_spent_min = pd.DataFrame(list(time_spent_min.items()), columns=['Mission Level', 'Min Time Spent'])
-    df_time_spent_avg = pd.DataFrame(list(time_spent_avg.items()), columns=['Mission Level', 'Average Duration'])
+    df_time_spent_max = pd.DataFrame(list(time_spent_max.items()), columns=['Mission Level', 'Temps passé maximum par niveau'])
+    df_time_spent_min = pd.DataFrame(list(time_spent_min.items()), columns=['Mission Level', 'Temps passé minimum par niveau'])
+    df_time_spent_avg = pd.DataFrame(list(time_spent_avg.items()), columns=['Mission Level', 'Temps moyen passé par niveau'])
 
-    df_avg_score = pd.DataFrame(list(avg_score_by_level.items()), columns=['Mission Level', 'Average Score'])
-    fig_avg_score = px.bar(df_avg_score, x='Mission Level', y='Average Score', title='Score moyen par niveau', text='Average Score')
+    df_avg_score = pd.DataFrame(list(avg_score_by_level.items()), columns=['Mission Level', 'Score moyen'])
+    fig_avg_score = px.bar(df_avg_score, x='Mission Level', y='Score moyen', title='Score moyen par niveau', text='Score moyen')
     fig_avg_score.update_traces(texttemplate='%{text}', textposition='outside')
     fig_avg_score.update_layout(
         xaxis_title='Niveaux',
-        yaxis_title='Average Score',
+        yaxis_title='Score moyen',
         margin=dict(l=40, r=40, t=40, b=40),
         yaxis=dict(tickmode='linear', dtick=1)
     )
     
-    df_max_score = pd.DataFrame(list(max_score_by_level.items()), columns=['Mission Level', 'Max Score'])
-    fig_max_score = px.bar(df_max_score, x='Mission Level', y='Max Score', title='Score max par niveau', text='Max Score')
+    df_max_score = pd.DataFrame(list(max_score_by_level.items()), columns=['Mission Level', 'Score maximum'])
+    fig_max_score = px.bar(df_max_score, x='Mission Level', y='Score maximum', title='Score max par niveau', text='Score maximum')
     fig_max_score.update_traces(texttemplate='%{text}', textposition='outside')
     fig_max_score.update_layout(
         xaxis_title='Niveaux',
-        yaxis_title='Max Score',
+        yaxis_title='Score maximum',
         margin=dict(l=40, r=40, t=40, b=40),
         yaxis=dict(tickmode='linear', dtick=1)
     )
 
-    df_completed_counts = pd.DataFrame(list(completed_counts.items()), columns=['Mission Level', 'Completed Count'])
-    fig_completed_counts = px.bar(df_completed_counts, x='Mission Level', y='Completed Count', title='Nombre de niveaux complétés', text='Completed Count')
+    df_completed_counts = pd.DataFrame(list(completed_counts.items()), columns=['Mission Level', 'Nombre d\'essais'])
+    fig_completed_counts = px.bar(df_completed_counts, x='Mission Level', y='Nombre d\'essais', title='Nombre de niveaux complétés', text='Nombre d\'essais')
     fig_completed_counts.update_traces(texttemplate='%{text}', textposition='outside')
     fig_completed_counts.update_layout(
         xaxis_title='Niveaux',
-        yaxis_title='Completed Count',
+        yaxis_title='Nombre d\'essais',
         margin=dict(l=40, r=40, t=40, b=40),
         yaxis=dict(tickmode='linear', dtick=1)
     )
 
-    if selected_time_spent == 'Max Time Spent':
-        fig_time_spent = px.bar(df_time_spent_max, x='Mission Level', y='Max Time Spent', title='Temps passé maximum par niveau', text='Max Time Spent')
-    elif selected_time_spent == 'Min Time Spent':
-        fig_time_spent = px.bar(df_time_spent_min, x='Mission Level', y='Min Time Spent', title='Temps passé minimum par niveau', text='Min Time Spent')
-    elif selected_time_spent == 'Average Duration':
-        fig_time_spent = px.bar(df_time_spent_avg, x='Mission Level', y='Average Duration', title='Temps moyen passé par niveau', text='Average Duration')
+    if selected_time_spent == 'Temps passé maximum par niveau':
+        fig_time_spent = px.bar(df_time_spent_max, x='Mission Level', y='Temps passé maximum par niveau', title='Temps passé maximum par niveau', text='Temps passé maximum par niveau')
+    elif selected_time_spent == 'Temps passé minimum par niveau':
+        fig_time_spent = px.bar(df_time_spent_min, x='Mission Level', y='Temps passé minimum par niveau', title='Temps passé minimum par niveau', text='Temps passé minimum par niveau')
+    elif selected_time_spent == 'Temps moyen passé par niveau':
+        fig_time_spent = px.bar(df_time_spent_avg, x='Mission Level', y='Temps moyen passé par niveau', title='Temps moyen passé par niveau', text='Temps moyen passé par niveau')
 
     fig_time_spent.update_traces(texttemplate='%{text}', textposition='outside')
     fig_time_spent.update_layout(
@@ -152,7 +152,7 @@ def update_graphs(selected_scenario, selected_time_spent, username):
     #print("blabababa", star_scores)
     star_data = []
     player_star_data = []
-    #max_score_by_level = df['Max Score'].to_dict()
+    #max_score_by_level = df['Score maximum'].to_dict()
     #print("bbbbb",max_score_by_level)# Convert Series to dictionary for faster lookup
     for Scénario, levels in star_scores.items():
         for level, stars in levels.items():
@@ -215,7 +215,7 @@ def update_graphs(selected_scenario, selected_time_spent, username):
     legend_title_text='Type d\'étoiles',
     legend=dict(x=0.5, y=1.1, orientation='h', xanchor='center')
 )
-    #fig_combined1 = px.bar(df_stars, x='Level', y=['Max Score', 'Score to get 2 Stars'], barmode='group', color='Scénario', title='Comparaison du score maximum et du score nécessaire pour obtenir 2 étoiles')
+    #fig_combined1 = px.bar(df_stars, x='Level', y=['Score maximum', 'Score to get 2 Stars'], barmode='group', color='Scénario', title='Comparaison du score maximum et du score nécessaire pour obtenir 2 étoiles')
     #fig_combined1.update_traces(texttemplate='%{text}', textposition='outside')
     #fig_combined1.update_layout(
     #xaxis_title='Niveaux',
