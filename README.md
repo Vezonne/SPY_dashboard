@@ -20,6 +20,12 @@ Vous pouvez installer les bibliothèques nécessaires en utilisant pip :
 pip install requests pandas dash plotly
 ```
 
+Ou faire un environnemt conda avec :
+
+```bash
+conda env create -f dashboard.yml
+```
+
 ## Utilisation
 
 ### 1. Extraction des Scores
