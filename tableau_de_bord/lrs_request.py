@@ -128,12 +128,18 @@ def process_data(data):
     df = pd.DataFrame(records)
     df["Timestamp"] = pd.to_datetime(df["Timestamp"])
     print(df)
-    return df, list(all_mission_levels), completed_counts, avg_score_by_level, max_score_by_level
+    return (
+        df,
+        list(all_mission_levels),
+        completed_counts,
+        avg_score_by_level,
+        max_score_by_level,
+    )
 
 
 def calculate_time_per_level(df):
     if df["Mission Level"].isnull().all():
-        #print("Aucun niveau détecté dans les données.")
+        # print("Aucun niveau détecté dans les données.")
         return pd.DataFrame(columns=["Mission Level", "Time Spent (min)"])
 
     # Fonction pour convertir les timestamps en minutes écoulées
@@ -185,8 +191,8 @@ def calculate_time_per_level(df):
     anomalies = minutes_per_level[minutes_per_level["Max Time Spent"] > threshold]
 
     if not anomalies.empty:
-        #print("Anomalies détectées :")
-        #print(anomalies)
+        # print("Anomalies détectées :")
+        # print(anomalies)
 
         # Filtrer les données pour ne garder que les lignes conformes
         minutes_per_level = minutes_per_level[
@@ -196,21 +202,29 @@ def calculate_time_per_level(df):
     # print("Contenu final de time_spent :")
     # print(minutes_per_level)
 
-    time_spent_max = dict(zip(minutes_per_level["Mission Level"], minutes_per_level["Max Time Spent"]))
-    time_spent_min = dict(zip(minutes_per_level["Mission Level"], minutes_per_level["Min Time Spent"]))
-    time_spent_avg = dict(zip(minutes_per_level["Mission Level"], minutes_per_level["Average Duration"]))
+    time_spent_max = dict(
+        zip(minutes_per_level["Mission Level"], minutes_per_level["Max Time Spent"])
+    )
+    time_spent_min = dict(
+        zip(minutes_per_level["Mission Level"], minutes_per_level["Min Time Spent"])
+    )
+    time_spent_avg = dict(
+        zip(minutes_per_level["Mission Level"], minutes_per_level["Average Duration"])
+    )
 
     return time_spent_max, time_spent_min, time_spent_avg
 
 
 def main():
     data = fetch_lrs_data(NAME)
-    df, all_mission_levels, completed_counts, avg_score_by_level = process_data(data)
+    df, all_mission_levels, completed_counts, avg_score_by_level, max_score_by_level = (
+        process_data(data)
+    )
     time_spent = calculate_time_per_level(df)
-    #print("Niveaux de mission :", all_mission_levels)
-    #print("Comptage des niveaux de mission :", completed_counts)
-    #print("Score moyen par niveau de mission :", avg_score_by_level)
-    #print("Temps passé par niveau de mission :", time_spent)
+    # print("Niveaux de mission :", all_mission_levels)
+    # print("Comptage des niveaux de mission :", completed_counts)
+    # print("Score moyen par niveau de mission :", avg_score_by_level)
+    # print("Temps passé par niveau de mission :", time_spent)
 
 
 if __name__ == "__main__":
