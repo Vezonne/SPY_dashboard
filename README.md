@@ -1,6 +1,6 @@
 # Tableau de Bord des Métriques Essentielles du Joueur
 
-Ce projet implémente un tableau de bord interactif pour visualiser les métriques essentielles des joueurs par niveau. Il utilise Dash et Plotly pour créer des graphiques dynamiques basés sur les données extraites des fichiers XML stockés dans le dossier `Levels/Levels`.
+Ce projet implémente un tableau de bord interactif pour visualiser les métriques essentielles des joueurs par niveau. Il utilise Dash et Plotly pour créer des graphiques dynamiques basés sur les données extraites des fichiers XML stockés dans le dossier `Levels/Levels` et du LRS.
 
 ## Structure du Projet
 
