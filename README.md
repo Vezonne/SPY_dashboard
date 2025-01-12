@@ -4,7 +4,7 @@ Ce projet implémente un tableau de bord interactif pour visualiser les métriqu
 
 ## Structure du Projet
 
-- `tableau_v9.py`: Fichier principal qui configure et lance le tableau de bord Dash.
+- `tableau_final.py`: Fichier principal qui configure et lance le tableau de bord Dash.
 - `lrs_request.py`: Fichier contenant les fonctions pour récupérer et traiter les données depuis un Learning Record Store (LRS).
 - `score.py`: Fichier contenant les fonctions pour extraire les scores et les seuils des fichiers XML.
 - `Levels/Levels`: Dossier contenant les fichiers XML des niveaux pour chaque scénario.
@@ -44,12 +44,12 @@ Le fichier `lrs_request.py` contient les fonctions pour récupérer et traiter l
 
 ### 3. Lancement du Tableau de Bord
 
-Le fichier `tableau_v9.py` configure et lance le tableau de bord Dash. Il utilise les fonctions définies dans `lrs_request.py` et `score.py` pour extraire et traiter les données, puis crée des graphiques interactifs pour visualiser les métriques.
+Le fichier `tableau_final.py` configure et lance le tableau de bord Dash. Il utilise les fonctions définies dans `lrs_request.py` et `score.py` pour extraire et traiter les données, puis crée des graphiques interactifs pour visualiser les métriques.
 
-Pour lancer le tableau de bord, exécutez le fichier `tableau_v9.py` :
+Pour lancer le tableau de bord, exécutez le fichier `tableau_final.py` :
 
 ```bash
-python tableau_v9.py
+python tableau_final.py
 ```
 
 ### 4. Utilisation du Tableau de Bord

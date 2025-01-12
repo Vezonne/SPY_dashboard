@@ -179,13 +179,16 @@ def update_graphs(selected_scenario, selected_time_spent, data, username):
     time_spent_avg = {k: round(v, 3) for k, v in time_spent_avg.items()}
 
     df_time_spent_max = pd.DataFrame(
-        list(time_spent_max.items()), columns=["Mission Level", "Temps passé maximum par niveau"]
+        list(time_spent_max.items()),
+        columns=["Mission Level", "Temps passé maximum par niveau"],
     )
     df_time_spent_min = pd.DataFrame(
-        list(time_spent_min.items()), columns=["Mission Level", "Temps passé minimum par niveau"]
+        list(time_spent_min.items()),
+        columns=["Mission Level", "Temps passé minimum par niveau"],
     )
     df_time_spent_avg = pd.DataFrame(
-        list(time_spent_avg.items()), columns=["Mission Level", "Temps moyen passé par niveau"]
+        list(time_spent_avg.items()),
+        columns=["Mission Level", "Temps moyen passé par niveau"],
     )
 
     df_avg_score = pd.DataFrame(
@@ -225,19 +228,19 @@ def update_graphs(selected_scenario, selected_time_spent, data, username):
     )
 
     df_completed_counts = pd.DataFrame(
-        list(completed_counts.items()), columns=["Mission Level", "Nombre d\'essais"]
+        list(completed_counts.items()), columns=["Mission Level", "Nombre d'essais"]
     )
     fig_completed_counts = px.bar(
         df_completed_counts,
         x="Mission Level",
-        y="Nombre d\'essais",
+        y="Nombre d'essais",
         title="Nombre de niveaux complétés",
-        text="Nombre d\'essais",
+        text="Nombre d'essais",
     )
     fig_completed_counts.update_traces(texttemplate="%{text}", textposition="outside")
     fig_completed_counts.update_layout(
         xaxis_title="Niveaux",
-        yaxis_title="Nombre d\'essais",
+        yaxis_title="Nombre d'essais",
         margin=dict(l=40, r=40, t=40, b=40),
         yaxis=dict(tickmode="linear", dtick=1),
     )
