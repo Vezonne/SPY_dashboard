@@ -156,9 +156,10 @@ def update_graphs(selected_scenario, selected_time_spent, username):
     #print("bbbbb",max_score_by_level)# Convert Series to dictionary for faster lookup
     for Scénario, levels in star_scores.items():
         for level, stars in levels.items():
-            star_data.append({'Scénario': Scénario, 'Level': level, 'Score to get 2 Stars': stars[0], 'Score to get 3 Stars': stars[1]})
+            transformed_level = level.replace("Niveau", "mission")            
+            star_data.append({'Scénario': Scénario, 'Level': transformed_level, 'Score to get 2 Stars': stars[0], 'Score to get 3 Stars': stars[1]})
             # Determine the number of stars the player has achieved using max_score_by_level
-            transformed_level = level.replace("Niveau", "mission")
+            #transformed_level = level.replace("Niveau", "mission")
             max_score = max_score_by_level.get(transformed_level, 0)
             #print("level", transformed_level)
             #print("max_score", max_score_by_level)
@@ -167,7 +168,7 @@ def update_graphs(selected_scenario, selected_time_spent, username):
                 player_stars = 3
             if max_score >= stars[0] and max_score < stars[1]:
                 player_stars = 2
-            player_star_data.append({'Scénario':Scénario, 'Level': level, 'Nombre d\'étoiles du joueur par scénario': player_stars})
+            player_star_data.append({'Scénario':Scénario, 'Level': transformed_level, 'Nombre d\'étoiles du joueur par scénario': player_stars})
 
     df_stars = pd.DataFrame(star_data)
     print("bbbbbbb",player_star_data)
