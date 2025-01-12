@@ -186,7 +186,7 @@ def update_graphs(selected_scenario, selected_time_spent, username):
     #print("greengreen", df_stars)
 
     fig_player_stars = px.bar(df_player_stars, x='Level', y='Nombre d\'étoiles du joueur par scénario', color='Scénario', title='Nombre d\'étoiles obtenues par niveau', text='Nombre d\'étoiles du joueur par scénario')
-    fig_player_stars.update_traces(texttemplate='%{text}', textposition='outside')
+    fig_player_stars.update_traces(texttemplate='%{text}', textposition='inside')
     fig_player_stars.update_layout(
         xaxis_title='Niveaux',
         yaxis_title='Nombre d\'étoiles obtenues',
