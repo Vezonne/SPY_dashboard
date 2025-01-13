@@ -280,7 +280,7 @@ def update_graphs(selected_scenario, selected_time_spent, data, username):
 
     # Extraire les scores des étoiles
     base_dir = os.path.join("tableau_de_bord", "Levels", "Levels")
-    star_scores = extract_scores("Levels/Levels")
+    star_scores = extract_scores(base_dir)
     # print("blabababa", star_scores)
     star_data = []
     player_star_data = []
